@@ -1,7 +1,7 @@
 import os
 import random
 import shutil
-import argparse  # argparse ƒ‰ƒCƒuƒ‰ƒŠ‚ğ’Ç‰Á
+import argparse  # argparse ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’è¿½åŠ 
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
@@ -9,74 +9,55 @@ from tensorflow.keras.applications.vgg16 import preprocess_input
 
 from PIL import Image
 
-# ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚Ìİ’è
+# ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°ã®è¨­å®š
 parser = argparse.ArgumentParser()
 parser.add_argument("--class_name", required=True, help="Class name for data processing")
 args = parser.parse_args()
 
-class_name = args.class_name  # ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚©‚ç class_name ‚ğó‚¯æ‚é
+class_name = args.class_name  # ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°ã‹ã‚‰ class_name ã‚’å—ã‘å–ã‚‹
 
+# ã‚ªãƒªã‚¸ãƒŠãƒ«ã®ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã¨æ–°ã—ã„ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã®ãƒ•ã‚©ãƒ«ãƒ€ã‚’è¨­å®š
+source_folder = "cnn-class/image_resource/"+class_name+"/"  # çŠ¬ã®ç”»åƒãŒã¾ã¨ã¾ã£ã¦ã„ã‚‹ãƒ•ã‚©ãƒ«ãƒ€
+output_folder = "cnn-class/image_resource/"+class_name+"/output/"  # æ–°ã—ã„ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã®ãƒ•ã‚©ãƒ«ãƒ€
 
-# ƒf[ƒ^Šg’£‚ÌŠÖ”
-def load_and_preprocess_image(image_path):
-    target_size=(224, 224)
-    # ‰æ‘œ‚ğ“Ç‚İ‚İAw’è‚µ‚½ƒTƒCƒY‚ÉƒŠƒTƒCƒY
-    image_path = class_name+"/output/train/"
-    img = load_img(image_path, target_size=target_size)
-    # ‰æ‘œƒf[ƒ^‚ğNumPy”z—ñ‚É•ÏŠ·
-    img_array = img_to_array(img)
-    # ‰æ‘œƒf[ƒ^‚ğƒ‚ƒfƒ‹‚É‡‚Á‚½Œ`®‚Å‘Oˆ—
-    preprocessed_image = preprocess_input(img_array)
-    return preprocessed_image
-
-def save_augmented_image(image, save_path):
-    # NumPy”z—ñ‚©‚çPIL Image‚É•ÏŠ·
-    augmented_img = Image.fromarray(image.astype('uint8'))
-    # ‰æ‘œ‚ğw’è‚ÌƒpƒX‚É•Û‘¶
-    augmented_img.save(save_path)
-
-# ƒIƒŠƒWƒiƒ‹‚Ìƒf[ƒ^ƒZƒbƒg‚ÆV‚µ‚¢ƒf[ƒ^ƒZƒbƒg‚ÌƒtƒHƒ‹ƒ_‚ğİ’è
-source_folder = class_name+"/"  # Œ¢‚Ì‰æ‘œ‚ª‚Ü‚Æ‚Ü‚Á‚Ä‚¢‚éƒtƒHƒ‹ƒ_
-output_folder = class_name+"/output/"  # V‚µ‚¢ƒf[ƒ^ƒZƒbƒg‚ÌƒtƒHƒ‹ƒ_
-
-# V‚µ‚¢ƒf[ƒ^ƒZƒbƒg‚ÌƒtƒHƒ‹ƒ_‚ğì¬
+# æ–°ã—ã„ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã®ãƒ•ã‚©ãƒ«ãƒ€ã‚’ä½œæˆ
 if not os.path.exists(class_name + "/output"):
-    os.makedirs(class_name + "/output/train")
-    os.makedirs(class_name + "/output/validation")
-    os.makedirs(class_name + "/output/test")
+    os.makedirs("cnn-class/image_resource/"+class_name + "/output/train")
+    os.makedirs("cnn-class/image_resource/"+class_name + "/output/validation")
+    os.makedirs("cnn-class/image_resource/"+class_name + "/output/test")
 
 
-# ƒtƒHƒ‹ƒ_“à‚Ì‰æ‘œƒtƒ@ƒCƒ‹‚ğƒŠƒXƒgƒAƒbƒv
+# ãƒ•ã‚©ãƒ«ãƒ€å†…ã®ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—
 image_files = [f for f in os.listdir(source_folder) if f.endswith(".jpg")]
 
-# ƒ‰ƒxƒ‹‚Ì”‚ğ‰Šú‰»
+# ãƒ©ãƒ™ãƒ«ã®æ•°ã‚’åˆæœŸåŒ–
 label = 0
 
-# ƒf[ƒ^ƒZƒbƒg‚ğì¬
+# ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã‚’ä½œæˆ
 for image_file in image_files:
-    # ‰æ‘œƒtƒ@ƒCƒ‹‚ÌƒpƒX
+    # ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
     source_path = source_folder+ image_file
     
-    # V‚µ‚¢ƒtƒ@ƒCƒ‹–¼‚ğ¶¬iCIFAR-10Œ`®j
+    # æ–°ã—ã„ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ç”Ÿæˆï¼ˆCIFAR-10å½¢å¼ï¼‰
     new_filename = f"{class_name}_{label:04d}.jpg"
     
-    # V‚µ‚¢ƒtƒ@ƒCƒ‹‚Ì•Û‘¶æƒpƒX
-    target_path = class_name+"/output/train/"+new_filename
+    # æ–°ã—ã„ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¿å­˜å…ˆãƒ‘ã‚¹
+    target_path = "cnn-class/image_resource/"+class_name+"/output/train/"+new_filename
     
-    # ‰æ‘œƒtƒ@ƒCƒ‹‚ÌƒRƒs[‚ÆƒŠƒl[ƒ€
+    # ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚³ãƒ”ãƒ¼ã¨ãƒªãƒãƒ¼ãƒ 
     shutil.copy(source_path, target_path)
     
-    # Ÿ‚Ìƒ‰ƒxƒ‹‚Éi‚Ş
+    # æ¬¡ã®ãƒ©ãƒ™ãƒ«ã«é€²ã‚€
     label += 1
 
-# ƒf[ƒ^ƒZƒbƒg‚Ì•ªŠ„iƒgƒŒ[ƒjƒ“ƒOAŒŸØAƒeƒXƒgƒZƒbƒgj
-images = os.listdir(class_name+"/output/train/")
+# ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã®åˆ†å‰²ï¼ˆãƒˆãƒ¬ãƒ¼ãƒ‹ãƒ³ã‚°ã€æ¤œè¨¼ã€ãƒ†ã‚¹ãƒˆã‚»ãƒƒãƒˆï¼‰
+images = os.listdir("cnn-class/image_resource/"+class_name+"/output/train/")
 train_images, test_images = train_test_split(images, test_size=0.2, random_state=42)
 val_images, test_images = train_test_split(test_images, test_size=0.5, random_state=42)
 
-# ŒŸØƒf[ƒ^‚ÆƒeƒXƒgƒf[ƒ^‚ğˆÚ“®
+# æ¤œè¨¼ãƒ‡ãƒ¼ã‚¿ã¨ãƒ†ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’ç§»å‹•
 for image in val_images:
-  shutil.move(class_name+"/output/train/"+image, class_name+"/output/validation/"+image)
+  shutil.move("cnn-class/image_resource/"+class_name+"/output/train/"+image, "cnn-class/image_resource/"+class_name+"/output/validation/"+image)
 
 for image in test_images:
-  shutil.move(class_name+"/output/train/"+image, class_name+"/output/test/"+ image)
+  shutil.move("cnn-class/image_resource/"+class_name+"/output/train/"+image, "cnn-class/image_resource/"+class_name+"/output/test/"+ image)
