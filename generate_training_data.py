@@ -52,22 +52,4 @@ def load_data(data_parent_dir, class_names):
 
     return x_train, y_train, x_test, y_test
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--class_names", type=str, nargs='+', default=["mendako", "chihirodako", "higenagadako", "hokuyouibodako", "juumondako", "kantendako", "koumoridako", "kuragedako", "mizudako", "tunomochidako"])
-    args = parser.parse_args()
 
-    # データセットフォルダの親ディレクトリのパス
-    data_parent_dir = '/content/'  # クラス名フォルダの親ディレクトリのパス
-
-    x_train, y_train, x_test, y_test = load_data(data_parent_dir, args.class_names)
-
-    print("Training data shape:", x_train.shape)
-    print("Training labels shape:", y_train.shape)
-    print("Test data shape:", x_test.shape)
-    print("Test labels shape:", y_test.shape)
-    # データを保存
-    np.save('x_train.npy', x_train)
-    np.save('y_train.npy', y_train)
-    np.save('x_test.npy', x_test)
-    np.save('y_test.npy', y_test)
