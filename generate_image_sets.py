@@ -20,12 +20,6 @@ class_name = args.class_name  # コマンドライン引数から class_name を
 source_folder = "cnn-class/image_resource/"+class_name+"/"  # 犬の画像がまとまっているフォルダ
 output_folder = "cnn-class/image_resource/"+class_name+"/output/"  # 新しいデータセットのフォルダ
 
-# 新しいデータセットのフォルダを作成
-if not os.path.exists(class_name + "/output"):
-    os.makedirs("cnn-class/image_resource/"+class_name + "/output/train")
-    os.makedirs("cnn-class/image_resource/"+class_name + "/output/validation")
-    os.makedirs("cnn-class/image_resource/"+class_name + "/output/test")
-
 
 # フォルダ内の画像ファイルをリストアップ
 image_files = [f for f in os.listdir(source_folder) if f.endswith(".jpg")]
