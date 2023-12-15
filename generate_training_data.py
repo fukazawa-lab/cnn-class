@@ -16,7 +16,7 @@ def load_data(data_parent_dir, class_names):
     
     for class_idx, class_name in enumerate(class_names):
         if ' ' in class_name:
-            print("■■■クラス名にスペースが入っています！スペースを削除してクラス名を再度定義しなおしてください")
+            print("■■■クラス名にスペースが入っています！スペースを削除してクラス名を再度定義しなおしてください。Colabを再起動（右上の▼ボタンの「ランタイムを接続解除して削除」）して再度画像を入れて実行してください。")
             return
             
     for class_idx, class_name in enumerate(class_names):
