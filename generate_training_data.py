@@ -13,7 +13,12 @@ def load_data(data_parent_dir, class_names):
     y_train = []
     x_test = []
     y_test = []
-
+    
+    for class_idx, class_name in enumerate(class_names):
+        if ' ' in class_name:
+            print("■■■クラス名にスペースが入っています！スペースを削除してクラス名を再度定義しなおしてください")
+            return
+            
     for class_idx, class_name in enumerate(class_names):
         # トレーニングデータの読み込み
         class_folder = os.path.join(data_parent_dir, class_name, 'output/train')
