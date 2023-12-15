@@ -47,7 +47,7 @@ for image_file in image_files:
 # データセットの分割（トレーニング、検証、テストセット）
 images = os.listdir("cnn-class/image_resource/"+class_name+"/output/train/")
 train_images, test_images = train_test_split(images, test_size=0.4, random_state=42)
-val_images, test_images = train_test_split(test_images, test_size=0.5, random_state=42)
+val_images, test_images = train_test_split(test_images, test_size=1.0, random_state=42)
 
 # 検証データとテストデータを移動
 for image in val_images:
