@@ -31,9 +31,9 @@ def load_data(data_parent_dir, class_names):
                 img.verify()  # 画像が正常に読み込まれるかどうかのチェック
                 img.close()
             except Exception as e:
-                print(f"■■■この画像ファイルは読み込めません！！削除してから一番初めから実行してください． {image_path}")
+                print(f"■■■この画像ファイルは読み込めません！！削除してから一番初めから実行してください．")
                 print(f"■■■ファイル名は{image_path}")
-                continue  # エラーが発生した場合はスキップ
+                return  # エラーが発生した場合はスキップ
 
 
 
