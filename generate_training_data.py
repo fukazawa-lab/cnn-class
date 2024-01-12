@@ -31,7 +31,7 @@ def load_data(data_parent_dir, class_names):
                 img.verify()  # 画像が正常に読み込まれるかどうかのチェック
                 img.close()
             except Exception as e:
-                print(f"■■■この画像ファイルは読み込めません！！削除してから一番初めから実行してください．")
+                print(f"■■■この画像ファイルは読み込めません！！Colabを再起動（右上の▼ボタンの「ランタイムを接続解除して削除」）してこの画像を削除して再度画像を入れて実行してください。")
                 print(f"■■■ファイル名は{image_path}")
                 return  # エラーが発生した場合はスキップ
 
